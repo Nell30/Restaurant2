@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WeeklyTask.Areas.Identity.Data;
 using WeeklyTask.Models;
 
 namespace WeeklyTask.Controllers
 {
-    public class ReservationsController : Controller
+    public class Reservations1Controller : Controller
     {
         private readonly FoodDbContext _context;
 
-        public ReservationsController(FoodDbContext context)
+        public Reservations1Controller(FoodDbContext context)
         {
             _context = context;
         }
 
-        // GET: Reservations
+        // GET: Reservations1
         public async Task<IActionResult> Index()
         {
-            var foodDbContext = _context.Reservations.Include(r => r.User);
-            return View(await foodDbContext.ToListAsync());
+              return _context.Reservations != null ? 
+                          View(await _context.Reservations.ToListAsync()) :
+                          Problem("Entity set 'FoodDbContext.Reservations'  is null.");
         }
 
-        // GET: Reservations/Details/5
+        // GET: Reservations1/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Reservations == null)
@@ -36,7 +35,6 @@ namespace WeeklyTask.Controllers
             }
 
             var reservation = await _context.Reservations
-                .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
@@ -46,48 +44,29 @@ namespace WeeklyTask.Controllers
             return View(reservation);
         }
 
-        // GET: Reservations/Create
+        // GET: Reservations1/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id");
             return View();
         }
 
-        // POST: Reservations/Create
+        // POST: Reservations1/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,ReservationDate,PartySize,Notes,ContactName,ContactPhone")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("Id,ReservationDate,PartySize,Notes,ContactName,ContactPhone")] Reservation reservation)
         {
             if (ModelState.IsValid)
             {
-                foreach (var modelState in ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
-                    {
-                        // Log the error message
-                        Console.WriteLine(error.ErrorMessage);
-                    }
-                }
-                reservation.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            if (!ModelState.IsValid)
-            {
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (var error in errors)
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-            }
-            ViewData["UserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", reservation.UserId);
             return View(reservation);
         }
 
-        // GET: Reservations/Edit/5
+        // GET: Reservations1/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Reservations == null)
@@ -100,16 +79,15 @@ namespace WeeklyTask.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", reservation.UserId);
             return View(reservation);
         }
 
-        // POST: Reservations/Edit/5
+        // POST: Reservations1/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,ReservationDate,PartySize,Notes,ContactName,ContactPhone")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ReservationDate,PartySize,Notes,ContactName,ContactPhone")] Reservation reservation)
         {
             if (id != reservation.Id)
             {
@@ -136,11 +114,10 @@ namespace WeeklyTask.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", reservation.UserId);
             return View(reservation);
         }
 
-        // GET: Reservations/Delete/5
+        // GET: Reservations1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Reservations == null)
@@ -149,7 +126,6 @@ namespace WeeklyTask.Controllers
             }
 
             var reservation = await _context.Reservations
-                .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
@@ -159,7 +135,7 @@ namespace WeeklyTask.Controllers
             return View(reservation);
         }
 
-        // POST: Reservations/Delete/5
+        // POST: Reservations1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -8,8 +8,6 @@ namespace WeeklyTask.Models
     {
         [Key]
         public int Id { get; set; }
-    
-        public string UserId { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
@@ -28,7 +26,6 @@ namespace WeeklyTask.Models
 
         public string ContactPhone { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
     }
 
     public class CheckReservationDateAttribute : ValidationAttribute
