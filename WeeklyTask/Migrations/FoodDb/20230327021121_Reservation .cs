@@ -45,7 +45,7 @@ namespace WeeklyTask.Migrations.FoodDb
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ReservationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PartySize = table.Column<int>(type: "int", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContactName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactPhone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

@@ -2,6 +2,8 @@
 using System.Xml.Linq;
 using WeeklyTask.Areas.Identity.Data;
 
+
+
 namespace WeeklyTask.Models
 {
     public class Reservation
@@ -21,10 +23,11 @@ namespace WeeklyTask.Models
         public int PartySize { get; set; }
 
         [DataType(DataType.MultilineText)]
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
         public string ContactName { get; set; }
 
         public string ContactPhone { get; set; }
+
 
     }
 

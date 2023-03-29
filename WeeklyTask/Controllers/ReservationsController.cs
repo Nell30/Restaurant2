@@ -6,16 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WeeklyTask.Models;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.Extensions.Configuration;
 
 namespace WeeklyTask.Controllers
 {
-    public class Reservations1Controller : Controller
+    public class ReservationsController : Controller
     {
         private readonly FoodDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public Reservations1Controller(FoodDbContext context)
+        public ReservationsController(FoodDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // GET: Reservations1
@@ -55,16 +60,69 @@ namespace WeeklyTask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        /*public async Task<IActionResult> Create([Bind("Id,ReservationDate,PartySize,Notes,ContactName,ContactPhone")] Reservation reservation)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(reservation);
+                await _context.SaveChangesAsync();
+
+                // Send the email notification
+                var smtpSettings = _configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+                var fromAddress = new MailAddress(smtpSettings.Username, "Yummy Restaurant");
+                var toAddress = new MailAddress("nelson.chasemedia@gmail.com", "Nelson");
+                const string subject = "New Reservation";
+                const string body = "A new reservation has been created.";
+                var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                };
+                using (var smtpClient = new SmtpClient(smtpSettings.Server, smtpSettings.Port))
+                {
+                    smtpClient.Credentials = new NetworkCredential(smtpSettings.Username, smtpSettings.Password);
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Send(message);
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(reservation);
+        }*/
+    
+
         public async Task<IActionResult> Create([Bind("Id,ReservationDate,PartySize,Notes,ContactName,ContactPhone")] Reservation reservation)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Send the email notification
+                var smtpSettings = _configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+                var fromAddress = new MailAddress(smtpSettings.Username, "Yummy Restaurant");
+                var toAddress = new MailAddress("nelson.chasemedia@gmail.com", "Nelson");
+                const string subject = "New Reservation";
+                const string body = "A new reservation has been created.";
+                var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                };
+                using (var smtpClient = new SmtpClient(smtpSettings.Server, smtpSettings.Port))
+                {
+                    smtpClient.Credentials = new NetworkCredential(smtpSettings.Username, smtpSettings.Password);
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Send(message);
+                }
+
+                return Json(new { success = true });
             }
-            return View(reservation);
+
+            return Json(new { success = false });
         }
+
+
 
         // GET: Reservations1/Edit/5
         public async Task<IActionResult> Edit(int? id)
