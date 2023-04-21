@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeeklyTask", "WeeklyTask\WeeklyTask.csproj", "{FA2A01BB-DDB6-4817-BB40-CD086D06BC24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurant", "WeeklyTask\Restaurant.csproj", "{FA2A01BB-DDB6-4817-BB40-CD086D06BC24}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "TestProject1\TestProject1.csproj", "{657D3AFF-7580-4016-9753-31F7AE52239D}"
 	ProjectSection(ProjectDependencies) = postProject

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Restaurant.Models;
 using WeeklyTask.Models;
 
 public class FoodDbContext : DbContext
@@ -10,6 +11,7 @@ public class FoodDbContext : DbContext
     public DbSet<Food> Foods { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
 
 

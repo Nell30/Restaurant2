@@ -43,27 +43,31 @@ namespace WeeklyTask.Controllers
 
         public async Task<IActionResult> Add(int id)
         {
-            Food food = await _context.Foods.FindAsync(id);
+             Food food = await _context.Foods.FindAsync(id);
 
-            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
-            CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
+             CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
 
-            if (cartItem == null)
-            {
-                cart.Add(new CartItem(food));
-            }
-            else
-            {
-                cartItem.Quantity += 1;
-            }
+             if (cartItem == null)
+             {
+                 cart.Add(new CartItem(food));
+             }
+             else
+             {
+                 cartItem.Quantity += 1;
+             }
 
-            HttpContext.Session.SetJson("Cart", cart);
+             HttpContext.Session.SetJson("Cart", cart);
 
-            TempData["Success"] = "The product has been added!";
+             TempData["Success"] = "The product has been added!";
 
-            return Redirect(Request.Headers["Referer"].ToString());
+             return Redirect(Request.Headers["Referer"].ToString());
         }
+
+
+
+
 
         public async Task<IActionResult> Decrease(int id)
         {

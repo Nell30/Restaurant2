@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WeeklyTask\WeeklyTask.csproj" />
+    <ProjectReference Include="..\WeeklyTask\Restaurant.csproj" />
   </ItemGroup>
 
 </Project>

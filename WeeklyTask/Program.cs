@@ -7,8 +7,12 @@ using System.Configuration;
 using WeeklyTask.Areas.Identity.Data;
 using WeeklyTask.Infrastructure.Components;
 using WeeklyTask.Models.Helpers;
+using Microsoft.Extensions.DependencyInjection;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+//builder.Environment.EnvironmentName = "Development";
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -36,7 +40,6 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
-
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = ".MyApplication.Session";
@@ -49,6 +52,26 @@ builder.Services.AddSession(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+/*// Add this block of code to apply migrations to the ApplicationDbContext
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
+
+// Add this block of code to apply migrations to the FoodDbContext
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<FoodDbContext>();
+    dbContext.Database.Migrate();
+}*/
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
