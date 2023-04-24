@@ -15,15 +15,7 @@ using WeeklyTask.Models.ViewModels;
 namespace WeeklyTask.Controllers
 {
     public class CheckoutController : Controller
-    {
-        /*private readonly FoodDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public CheckoutController(UserManager<ApplicationUser> userManager, FoodDbContext context)
-        {
-            _userManager = userManager;
-            _context = context;
-        }*/
+    {      
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;

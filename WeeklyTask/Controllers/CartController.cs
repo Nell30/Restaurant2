@@ -3,6 +3,7 @@ using WeeklyTask.Infrastructure;
 using WeeklyTask.Models.ViewModels;
 using WeeklyTask.Models;
 using WeeklyTask.Models.Helpers;
+using Newtonsoft.Json;
 
 namespace WeeklyTask.Controllers
 {
@@ -30,7 +31,7 @@ namespace WeeklyTask.Controllers
             return View(cartVM);
         }
 
-        public IActionResult AddToCart(int id)
+        /*public IActionResult AddToCart(int id)
         {
             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
@@ -39,7 +40,52 @@ namespace WeeklyTask.Controllers
             HttpContext.Session.SetJson("Cart", cart);
 
             return RedirectToAction("Index");
+        }*/
+
+        [HttpPost]
+        public IActionResult AddToCart(int id)
+        {
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            // Your logic to add the food item to the cart
+            var foodItem = _context.Foods.FirstOrDefault(f => f.Id == id);
+            if (foodItem != null)
+            {
+                var cartItem = cart.FirstOrDefault(c => c.ProductId == foodItem.Id);
+                if (cartItem == null)
+                {
+                    cart.Add(new CartItem(foodItem));
+                }
+                else
+                {
+                    cartItem.Quantity++;
+                }
+            }
+
+            HttpContext.Session.SetJson("Cart", cart);
+
+            // Return the updated SmallCartViewModel object as JSON
+            var smallCartVM = new SmallCartViewModel
+            {
+                NumberOfItems = cart.Sum(item => item.Quantity),
+                TotalAmount = cart.Sum(item => item.Total)
+            };
+             
+
+            System.Diagnostics.Debug.WriteLine($"smallCartVM: {JsonConvert.SerializeObject(smallCartVM)}");
+
+            return Json(smallCartVM);
         }
+
+        [HttpGet]
+        public IActionResult GetCartItemCount()
+        {
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+            int itemCount = cart.Sum(item => item.Quantity);
+            return Json(itemCount);
+        }
+
+
 
         public async Task<IActionResult> Add(int id)
         {

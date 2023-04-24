@@ -1,4 +1,5 @@
-﻿using WeeklyTask.Areas.Identity.Data;
+﻿using Restaurant.Models;
+using WeeklyTask.Areas.Identity.Data;
 
 namespace WeeklyTask.Models
 {
@@ -13,6 +14,8 @@ namespace WeeklyTask.Models
         public string? GuestEmail { get; set; }
 
         public string UserId { get; set; }
+
+        public ICollection<OrderItem> OrderItems { get; set; }
 
     }
 

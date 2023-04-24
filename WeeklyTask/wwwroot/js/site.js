@@ -273,3 +273,64 @@ addToCartButtons.forEach((button) => {
         gooeyPill.style.display = 'none';
     });
 });
+
+//Smoother addto cart and 
+
+async function addToCart(itemId) {
+    console.log("Adding item to cart:", itemId);
+
+    const csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+    const response = await fetch("/Cart/AddToCart", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "RequestVerificationToken": csrfToken
+        },
+        body: `id=${itemId}`
+    });
+
+    if (response.ok) {
+        const smallCartVM = await response.json();
+        console.log("Item added to cart successfully", smallCartVM);
+
+        // Update the cart display here
+        updateCartBadge(smallCartVM.numberOfItems);
+
+        console.log("Cart display update code executed");
+    } else {
+        console.error("Failed to add item to cart:", response.status, response.statusText);
+    }
+
+}
+
+//persist items cart
+async function loadCartItemCount() {
+    const response = await fetch("/Cart/GetCartItemCount", {
+        method: "GET"
+    });
+
+    if (response.ok) {
+        const itemCount = await response.json();
+        updateCartBadge(itemCount);
+    } else {
+        console.error("Failed to load cart item count:", response.status, response.statusText);
+    }
+}
+
+function updateCartBadge(itemCount) {
+    const cartButton = document.getElementById("cart-button");
+    let badge = cartButton.querySelector(".badge");
+
+    if (badge) {
+        badge.textContent = itemCount;
+    } else {
+        const newBadge = document.createElement("span");
+        newBadge.className = "badge bg-danger";
+        newBadge.textContent = itemCount;
+        cartButton.appendChild(newBadge);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadCartItemCount();
+});

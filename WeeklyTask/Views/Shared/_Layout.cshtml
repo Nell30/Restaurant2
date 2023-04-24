@@ -107,18 +107,25 @@
             </nav>
             <!-- .navbar -->
 
-            <a class="btn " href="/Cart/Index">
+            @*<a class="btn cart-button" href="/Cart/Index">
                 <i class="bi bi-cart" style="font-size: 1.5rem; color: rgb(191, 169, 139); -webkit-text-stroke-width: 1px; opacity: 1;"></i>
-                @*@if (smallCart.Invoke() is SmallCartViewModel smallCartVM && smallCartVM.NumberOfItems > 0)
-                {
-                <span class="badge bg-danger">@smallCartVM.NumberOfItems</span>
-                }*@
                 @if (smallCart.Invoke() is SmallCartViewModel smallCartVM && smallCartVM.NumberOfItems > 0)
                 {
-                    <span class="badge bg-danger" id="cart-count">@smallCartVM.NumberOfItems</span>
+                    <span class="badge bg-danger">@smallCartVM.NumberOfItems</span>
+                }              
+
+            </a>*@
+            <a class="btn" href="/Cart/Index" id="cart-button">
+                <i class="bi bi-cart" style="font-size: 1.5rem; color: rgb(191, 169, 139); -webkit-text-stroke-width: 1px; opacity: 1;"></i>
+                @if (smallCart.Invoke() is SmallCartViewModel smallCartVM && smallCartVM.NumberOfItems > 0)
+                {
+                    <span class="badge bg-danger">@smallCartVM.NumberOfItems </span>
                 }
 
-            </a>
+            </a>          
+
+            
+
 
             <div class=" mobile-nav-toggle mobile-nav-show ">
                 <div class="">
