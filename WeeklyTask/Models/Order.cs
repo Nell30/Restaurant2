@@ -16,6 +16,7 @@ namespace WeeklyTask.Models
         public string UserId { get; set; }
 
         public ICollection<OrderItem> OrderItems { get; set; }
+        public ApplicationUser User { get; set; }
 
     }
 

@@ -100,8 +100,13 @@ StripeConfiguration.ApiKey = "sk_test_51Mj6WQGhjWSbhfVTKWANfkM3tZT4k71D1cmYIF2w4
 
 
 app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.MapRazorPages();
 

@@ -17,6 +17,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<Order> Orders { get; set; }
 
+    
+
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -24,9 +27,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
         // 
-        
 
+        builder.Entity<Order>()
+        .HasOne(o => o.User)
+        .WithMany(u => u.Orders)
+        .HasForeignKey(o => o.UserId)
+        .IsRequired();
 
+        //builder.Entity<AccessLevel>().OwnsOne(x => x.Access);
         builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
 
     }

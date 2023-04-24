@@ -7,7 +7,7 @@ using System.Security.Claims;
 using WeeklyTask.Areas.Identity.Data;
 using WeeklyTask.Models;
 
-namespace YourProjectNamespace.Controllers
+namespace WeeklyTask.Controllers
 {
     [Authorize]
     public class OrderController : Controller
@@ -21,13 +21,26 @@ namespace YourProjectNamespace.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Area("admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AdminIndex()
         {
             var orders = await _orderService.GetAllOrdersAsync();
 
+            // Log the number of orders fetched
+            System.Diagnostics.Debug.WriteLine($"Fetched {orders.Count} orders.");
+
             return View(orders);
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("TestAdminIndex")]
+        public async Task<IActionResult> TestAdminIndex()
+        {
+            var orders = await _orderService.GetAllOrdersAsync();
+            return View("AdminIndex", orders);
+        }
+
 
         /*public async Task<IActionResult> Index()
         {
@@ -35,6 +48,7 @@ namespace YourProjectNamespace.Controllers
             var orders = await _orderService.GetOrdersByUserIdAsync(userId);
             return View(orders);
         }*/
+
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

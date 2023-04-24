@@ -65,7 +65,8 @@
                                     <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Order" asp-action="Index" title="Order History">Order History</a>
+                                    <a class="nav-link text-dark" asp-controller="Order" asp-action="TestAdminIndex" title="Order History">Order History</a>
+
                                 </li>
 
                                 <li class="nav-item">
@@ -107,14 +108,6 @@
             </nav>
             <!-- .navbar -->
 
-            @*<a class="btn cart-button" href="/Cart/Index">
-                <i class="bi bi-cart" style="font-size: 1.5rem; color: rgb(191, 169, 139); -webkit-text-stroke-width: 1px; opacity: 1;"></i>
-                @if (smallCart.Invoke() is SmallCartViewModel smallCartVM && smallCartVM.NumberOfItems > 0)
-                {
-                    <span class="badge bg-danger">@smallCartVM.NumberOfItems</span>
-                }              
-
-            </a>*@
             <a class="btn" href="/Cart/Index" id="cart-button">
                 <i class="bi bi-cart" style="font-size: 1.5rem; color: rgb(191, 169, 139); -webkit-text-stroke-width: 1px; opacity: 1;"></i>
                 @if (smallCart.Invoke() is SmallCartViewModel smallCartVM && smallCartVM.NumberOfItems > 0)
@@ -123,8 +116,6 @@
                 }
 
             </a>          
-
-            
 
 
             <div class=" mobile-nav-toggle mobile-nav-show ">
@@ -136,10 +127,7 @@
 
             </div>
             <div class="mobile-nav-toggle mobile-nav-hide d-none cross-line" style="color: black; " aria-label="Close"></div>
-
-            @*<div class="bg-success mt-3 p-3 text-white">
-            <vc:small-cart />
-            </div>*@
+         
 
         </div>
     </header>

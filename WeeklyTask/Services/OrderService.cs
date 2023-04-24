@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WeeklyTask.Areas.Identity.Data;
 using WeeklyTask.Models;
 
@@ -31,16 +32,24 @@ namespace Restaurant.Services
             _logger.LogInformation("Fetched {count} orders for user ID: {userId}", orders.Count, userId);
             return orders;
         }
-       
+
 
         // Get all orders for admin
-        public async Task<List<Order>> GetAllOrdersAsync()
+        /*public async Task<List<Order>> GetAllOrdersAsync()
         {
             _logger.LogInformation("Fetching all orders");
-            var orders = await _context.Orders.ToListAsync();
+            var orders = await _context.Orders
+                .Include(o => o.User)// Add this line to include related user information
+                .ToListAsync();
             _logger.LogInformation("Fetched {count} orders", orders.Count);
             return orders;
+        }*/
+
+        public async Task<List<Order>> GetAllOrdersAsync()
+        {
+            return await _context.Orders.Include(o => o.User).ToListAsync();
         }
+
 
         // Create a new order
         public async Task CreateOrderAsync(Order order)

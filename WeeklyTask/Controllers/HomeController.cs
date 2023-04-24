@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Restaurant.Services;
 using System.Data;
 using System.Diagnostics;
 using WeeklyTask.Areas.Identity.Data;
@@ -20,12 +21,16 @@ namespace WeeklyTask.Controllers
 
         private readonly IOptions<StripeSettings> _stripeSettings;
 
-        public HomeController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<StripeSettings> stripeSettings)
+        private readonly OrderService _orderService;
+
+        public HomeController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<StripeSettings> stripeSettings, OrderService orderService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _stripeSettings = stripeSettings;
+            _orderService = orderService;
         }
+   
 
         public async Task<IActionResult> Index()
         {
