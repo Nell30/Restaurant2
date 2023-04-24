@@ -16,29 +16,44 @@ namespace WeeklyTask.Controllers
 {
     public class CheckoutController : Controller
     {
-        private readonly FoodDbContext _context;
+        /*private readonly FoodDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CheckoutController(FoodDbContext context)
+        public CheckoutController(UserManager<ApplicationUser> userManager, FoodDbContext context)
         {
+            _userManager = userManager;
+            _context = context;
+        }*/
+
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public CheckoutController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        {
+            _userManager = userManager;
             _context = context;
         }
+
 
         [TempData]
         public string TotalAmount { get; set; }
 
 
         public IActionResult Index()
-        {
-            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+         {
+             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
-            CartViewModel cartVM = new()
-            {
-                CartItems = cart,
-                GrandTotal = cart.Sum(x => x.Quantity * x.Price)
-            };
+             CartViewModel cartVM = new()
+             {
+                 CartItems = cart,
+                 GrandTotal = cart.Sum(x => x.Quantity * x.Price)
+             };
 
-            return View(Tuple.Create(cartVM, new Order()));
-        }
+             return View(Tuple.Create(cartVM, new Order()));
+         }
+
+        
+
 
         [HttpPost]
         public async Task<IActionResult> Processing(string stripeToken, string stripeEmail, string deliveryAddress, string customerPhone, string description, string guestEmail)
@@ -90,8 +105,9 @@ namespace WeeklyTask.Controllers
                     CustomerPhone = customerPhone,
                     TotalAmount = grandTotal,
                     UserEmail = User.Identity.Name,
-                    GuestEmail = guestEmail
-                    //UserId = User.FindFirstValue(ClaimTypes.NameIdentifier) // get the current user's ID
+                    GuestEmail = guestEmail,
+                    UserId = _userManager.GetUserId(User) // get the current user's ID
+                    /*UserId = User.FindFirstValue(ClaimTypes.NameIdentifier) // get the current user's ID*/
                 };
 
                 _context.Orders.Add(order);

@@ -1,0 +1,105 @@
+﻿
+
+@keyframes spinning {
+    from {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+img.spin {
+    animation-name: spinning;
+    animation-duration: 25s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes flyToIcon {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(calc(var(--targetX) - var(--startX)), calc(var(--targetY) - var(--startY)));
+    }
+}
+
+.animated {
+    animation-name: flyToIcon;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+/*Animate Menu Page*/
+.pill-btn2 {
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 8px 15px;
+    background-color: #BFA98B;
+    border: none;
+    font-weight: 700;
+}
+
+@keyframes flyToIcon {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(calc((var(--translateX))/2), calc((var(--translateY))/2)) scale(1.2);
+    }
+
+    100% {
+        transform: translate(var(--translateX), var(--translateY)) scale(0);
+    }
+}
+
+.animated {
+    animation-name: flyToIcon;
+    animation-duration: 0.65s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
+
+.hidden {
+    display: none;
+}
+
+.pill-btn2 {
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 8px 15px;
+    background-color: #BFA98B;
+    border: none;
+    font-weight: 700;
+    position: relative;
+    z-index: 2;
+}
+
+
+#gooeyPill {
+    position: absolute;
+    background-color: #BFA98B;
+    z-index: 1;
+    display: none;
+    animation-duration: 2.5s;
+}
+@keyframes gooeyPillAnimation {
+    0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--translateX), var(--translateY)) scale(0.5);
+        opacity: 0;
+    }
+}
+

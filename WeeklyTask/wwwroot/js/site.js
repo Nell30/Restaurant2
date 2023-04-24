@@ -243,3 +243,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+/*Animate Menu */
+
+const addToCartButtons = document.querySelectorAll('.pill-btn2');
+const icon2 = document.getElementById('icon2');
+
+addToCartButtons.forEach((button) => {
+    const gooeyPill = button.parentElement.querySelector('.gooey-pill');
+
+    button.addEventListener('click', function () {
+        gooeyPill.style.display = 'block';
+        gooeyPill.style.left = '8px';
+        gooeyPill.style.top = '8px';
+
+        const buttonRect = button.getBoundingClientRect();
+        const icon2Rect = icon2.getBoundingClientRect();
+        const translateX = icon2Rect.x - buttonRect.x - 20;
+        const translateY = icon2Rect.y - buttonRect.y;
+
+        gooeyPill.style.setProperty('--translateX', `${translateX}px`);
+        gooeyPill.style.setProperty('--translateY', `${translateY}px`);
+
+        gooeyPill.classList.add('animated');
+    });
+
+    gooeyPill.addEventListener('animationend', function () {
+        gooeyPill.classList.remove('animated');
+        gooeyPill.style.display = 'none';
+    });
+});

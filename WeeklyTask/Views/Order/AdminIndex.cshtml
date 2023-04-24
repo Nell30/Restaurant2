@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WeeklyTask.Models.Order>
+
+<h2>Admin Orders</h2>
+
+@if (Model.Count() == 0)
+{
+    <p>No orders found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>User ID</th>
+                <th>Description</th>
+                <th>Total Amount</th>
+                <!-- Add other columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.UserId</td>
+                    <td>@order.Description</td>
+                    <td>@order.TotalAmount</td>
+                    <!-- Add other properties as needed -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}

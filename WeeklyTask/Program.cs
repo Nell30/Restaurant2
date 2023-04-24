@@ -8,6 +8,8 @@ using WeeklyTask.Areas.Identity.Data;
 using WeeklyTask.Infrastructure.Components;
 using WeeklyTask.Models.Helpers;
 using Microsoft.Extensions.DependencyInjection;
+using Restaurant.Services;
+using Microsoft.Extensions.Logging;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,14 @@ builder.Services.AddTransient<SmallCartViewComponent>();
 builder.Services.AddDbContext<FoodDbContext>(options =>
     options.UseSqlServer(connectionString2));
 builder.Services.AddDistributedMemoryCache();
+builder.Logging.AddConsole();
+builder.Logging.SetMinimumLevel(LogLevel.Information);
+
+
+// Add the OrderService
+builder.Services.AddTransient<OrderService>();
+
+builder.Services.AddLogging();
 
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

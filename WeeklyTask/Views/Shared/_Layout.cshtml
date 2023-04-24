@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Gallerly.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/HomePage.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WeeklyTask.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,21 +23,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-   
-    <header id="header" class="header  d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
 
-      <a class="logo d-flex align-items-center me-auto me-lg-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="~/images/Logo.png" alt="" style="height:150px; width:50px">
-        @*<h1>Yummy<span>.</span></h1>*@
-      </a>
+    <header id="header" class="header  d-flex align-items-center">
+        <div class="container d-flex align-items-center justify-content-between">
+
+            <a class="logo d-flex align-items-center me-auto me-lg-0">
+                <!-- Uncomment the line below if you also wish to use an image logo -->
+                <img src="~/images/Logo.png" alt="" style="height:150px; width:50px">
+                @*<h1>Yummy<span>.</span></h1>*@
+            </a>
 
             <nav id="navbar" class="navbar">
-         <ul>
-          <li><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a class="nav-link" asp-area="" asp-controller="Foods" asp-action="Index">Menu</a></li>
+                <ul>
+                    <li><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>                   
+                    <li><a class="nav-link" asp-area="" asp-controller="Foods" asp-action="Index">Menu</a></li>
                     @if (User.IsInRole("admin"))
                     {
                         <li><a asp-controller="Reservations" asp-action="Index">Reservation</a></li>
@@ -54,42 +54,64 @@
                     {
                         <li><a asp-controller="Reviews" asp-action="Create">Reviews</a></li>
                     }
-          <li><a asp-area="" asp-controller="Admin" asp-action="Gallery">Gallery</a></li>
-          <li class="dropdown"><a href="#"><span>Account</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
- 
-                 @if (SignInManager.IsSignedIn(User))
-                     {
-                      <li class="nav-item">
-                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-                      </li>
-                      <li class="nav-item">
-                      <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                      <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                      </form>
-                      </li>
-                      }
-                 else
-                     {
-                      <li class="nav-item">
-                         <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                       </li>
-                      <li class="nav-item">
-                          <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                      </li>
-                      }
-            </ul>
-          </li>
-          <li><a asp-controller="Admin" asp-action="Contact">Contact</a></li>
-        </ul>
-      </nav>
-      <!-- .navbar -->
+                    <li><a asp-area="" asp-controller="Admin" asp-action="Gallery">Gallery</a></li>
+                    <li class="dropdown">
+                        <a href="#"><span>Account</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Order" asp-action="Index" title="Order History">Order History</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#"><span>Socials</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                            <li class="nav-item">
+                                <a href="https://www.facebook.com/pastilannimackoy">
+                                    <i class="bi bi-facebook" style="color: #3b5998;"></i>
+                                    Facebook
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.facebook.com/pastilannimackoy">
+                                    <i class="bi bi-instagram" style="color: #ac2bac;"></i>
+                                    Instagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a asp-controller="Admin" asp-action="Contact">Contact</a></li>
+                </ul>
+            </nav>
+            <!-- .navbar -->
 
             <a class="btn " href="/Cart/Index">
                 <i class="bi bi-cart" style="font-size: 1.5rem; color: rgb(191, 169, 139); -webkit-text-stroke-width: 1px; opacity: 1;"></i>
                 @*@if (smallCart.Invoke() is SmallCartViewModel smallCartVM && smallCartVM.NumberOfItems > 0)
                 {
-                    <span class="badge bg-danger">@smallCartVM.NumberOfItems</span>
+                <span class="badge bg-danger">@smallCartVM.NumberOfItems</span>
                 }*@
                 @if (smallCart.Invoke() is SmallCartViewModel smallCartVM && smallCartVM.NumberOfItems > 0)
                 {
@@ -102,46 +124,46 @@
                 <div class="">
                     <div class="line mobile-nav-show"></div>
                     <div class="line mobile-nav-show"></div>
-                    <div class="line mobile-nav-show"></div>                  
+                    <div class="line mobile-nav-show"></div>
                 </div>
-                
+
             </div>
             <div class="mobile-nav-toggle mobile-nav-hide d-none cross-line" style="color: black; " aria-label="Close"></div>
 
-           @*<div class="bg-success mt-3 p-3 text-white">
-              <vc:small-cart />
-           </div>*@
-            
-    </div>
-  </header>
+            @*<div class="bg-success mt-3 p-3 text-white">
+            <vc:small-cart />
+            </div>*@
+
+        </div>
+    </header>
 
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
             @if (User.IsInRole("admin"))
             {
-                <p></p>              
+                <p></p>
             }
             else
             {
                 <p> </p>
             }
-                        
+
         </main>
     </div>
     <footer>
-    <div class="container">
-        <div class="copyright">
+        <div class="container">
+            <div class="copyright">
                 &copy; Copyright <strong><span>Pastilan ni Mackoy</span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/ -->
+
+            </div>
         </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/ -->
-           
-        </div>
-    </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
